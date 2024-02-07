@@ -1,0 +1,42 @@
+/* body {
+  background-image: url("../../assets/variedade-de-macrame-boho-dentro-de-casa.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 90vh;
+}
+
+.presentation-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.presentation-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+} */
+
+.presentation-wrapper {
+  height: 100vh;
+  background-image: url("../../assets/fam_background.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+.presentation-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza verticalmente o conteúdo */
+  align-items: center; /* Centraliza horizontalmente o conteúdo */
+  color: black;
+  font-weight: bolder;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Cor de fundo do container com transparência */
+}
