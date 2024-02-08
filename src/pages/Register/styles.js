@@ -38,32 +38,7 @@ export const Form = styled.form`
   > button {
     margin-bottom: 42px;
   }
-
-  select {
-    outline: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: ${({ theme }) => theme.COLORS.LIGHT_100};
-    background-color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
-    font-family: "Poppins", sans-serif;
-    font-size: 1.4rem;
-
-    border-radius: 0.8rem;
-    padding: 0 1.4rem;
-
-    margin-top: 0.5rem;
-
-    width: 100%;
-    height: 2.2rem;
-
-    color: ${({ theme }) => theme.COLORS.LIGHT_300};
-    border: 0;
-
-    &::placeholder {
-      color: ${({ theme }) => theme.COLORS.LIGHT_500};
-    }
-  }
+ 
 `;
 
 export const Background = styled.div`

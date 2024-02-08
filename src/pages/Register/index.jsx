@@ -6,11 +6,14 @@ import { ButtonText } from "../../components/ButtonText";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { routes } from "../../constants/routes";
+import { Select } from "../../components/Select";
 
 export function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  console.log(name, email, password);
 
   return (
     <Container>
@@ -40,14 +43,10 @@ export function Register() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <select>
-          <option value="">Selecione uma opção</option>
-          <option value="Refeições">Comprador</option>
-          <option value="Sobremesas">Vendedor</option>
-        </select>
+        <Select icon={FiUser} />
 
         <Button title="Cadastrar" />
-        <Link to="/">
+        <Link to={`../${routes.login}`}>
           <ButtonText title="Voltar para o login" icon={FiArrowLeft} />
         </Link>
       </Form>

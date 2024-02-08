@@ -5,6 +5,8 @@ import App from "../App";
 import { routes } from "../constants/routes";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
+import { New } from "../pages/New"
+import { Buy } from "../pages/Buy"
 
 export const router = createBrowserRouter([
   {
@@ -19,4 +21,12 @@ export const router = createBrowserRouter([
     path: routes.register,
     element: <Register />,
   },
+  {
+    path: routes.new,
+    element: <New />
+  },
+  {
+    path: routes.buy,
+    element: <Buy />
+  }
 ]);
