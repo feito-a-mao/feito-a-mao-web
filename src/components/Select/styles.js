@@ -4,19 +4,18 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
-  color: ${({ theme }) => theme.COLORS.EXIT};
-  
+  background-color: ${({ theme }) => theme.COLORS.EXIT};
+  color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
+
   height: 56px;
   border: 0;
   border-radius: 10px;
 
   padding: 12px;
 
-    svg {
-       margin-right: 8px;
-    }
-
+  svg {
+    margin-right: 8px;
+  }
 `;
 
 export const SelectContainer = styled.select`
@@ -27,4 +26,6 @@ export const SelectContainer = styled.select`
   color: inherit;
   font-size: inherit;
   font-weight: inherit;
+  background-color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
+  color: ${({ theme }) => theme.COLORS.EXIT};
 `;

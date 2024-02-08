@@ -1,29 +1,36 @@
 import styled from "styled-components";
-
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
+import { FloatButton } from "antd";
+import { FileSearchOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../constants/routes";
+import axios from "axios";
+import { useState, useRef } from "react";
 import { FiUpload } from "react-icons/fi";
-import { useRef, useState } from "react";
 
-const Container = styled.div``;
+const Container = styled.div`
+  margin-top: 80px;
+  padding: 0;
+`;
 
 const Content = styled.div`
   padding: 0 124px;
 
-  margin-top: 150px;
+  // margin-top: 150px;
 
   h2 {
-    margin-top: 2.4rem;
+    // margin-top: 2.4rem;
     margin-bottom: 2.4rem;
   }
 
   h4 {
-    margin-top: 2.4rem;
+    // margin-top: 2.4rem;
     margin-bottom: 1.6rem;
   }
 
   button {
-    margin-top: 2.4rem;
+    // margin-top: 2.4rem;
   }
 
   textarea {
@@ -31,8 +38,8 @@ const Content = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${({ theme }) => theme.COLORS.EXIT};
-    background-color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
+    color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
+    background-color: ${({ theme }) => theme.COLORS.EXIT};
     font-family: "Poppins", sans-serif;
     font-size: 16px;
 
@@ -45,11 +52,11 @@ const Content = styled.div`
 
     padding: 1.4rem;
 
-    color: ${({ theme }) => theme.COLORS.WHITE_TITLE};
+    color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
     border: 0;
 
     &::placeholder {
-      color: ${({ theme }) => theme.COLORS.EXIT};
+      color: #000;
       font-size: 16px;
     }
   }
@@ -73,6 +80,10 @@ const Content = styled.div`
     justify-content: space-between;
     gap: 3.2rem;
 
+    h4 {
+      color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
+    }
+
     .cardImage {
       width: 30%;
     }
@@ -92,6 +103,8 @@ const Content = styled.div`
 `;
 
 export function New() {
+  const navigate = useNavigate();
+
   const [imageFile, setImageFile] = useState(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -101,49 +114,49 @@ export function New() {
   const inputRef = useRef();
 
   async function handleNew() {
-    if (!imageFile) {
-      return alert("Você precisa enviar a imagem!");
-    }
-
-    if (!name) {
-      return alert("Você precisa informar o nome!");
-    }
-
-    if (!price) {
-      return alert("Você precisa informar o preço!");
-    }
-
-    if (!quantity) {
-      return alert("Você precisa informar a quantidade!");
-    }
-
-    if (!description) {
-      return alert("Você precisa informar a descrição!");
+    if (!imageFile || !name || !price || !quantity || !description) {
+      return alert("Por favor, preencha todos os campos.");
     }
 
     try {
-      const priceRegex = /([0-9]*[.]{0,1}[0-9]{0,2})/;
-
-      if (!priceRegex.test(price)) {
-        return "Digite o preço num formato válido. Ex: 12,99";
-      }
-
       const formattedPrice = parseFloat(price.replace(",", "."));
 
-      const formData = new FormData();
+      const productData = {
+        nome: name,
+        descricao: description,
+        preco: formattedPrice,
+        estoqueDisponivel: quantity,
+        vendedor: {
+          id: 1,
+          usuario: {
+            id: 1,
+            nome: "Diego",
+            email: "diego.demetrio@aluno.ufop.edu.br",
+            fotoPerfil: null,
+            dataCriacao: null,
+            cpf: "14822012670",
+          },
+          descricaoPerfil: "Vendedor top",
+          localizacao: "Nova Lima - MG",
+          avaliacaoMedia: 5.0,
+        },
+        imagens: [
+          {
+            nomeArquivo: imageFile.name,
+            dadosImagem: await convertImageToBase64(imageFile),
+            legenda: "Imagem do produto",
+            dataUpload: null,
+          },
+        ],
+      };
+      console.log(productData);
 
-      formData.append("image", imageFile);
-      formData.append("name", name);
-      formData.append("price", formattedPrice);
-      formData.append("quantity", quantity);
-      formData.append("description", description);
+      await axios.post("http://localhost:8070/api/v1/produto", productData);
 
-      // await api.post("/s", formData)
-
-      alert("Criado com sucesso");
+      alert("Produto adicionado com sucesso!");
     } catch (error) {
-      console.log(error);
-      return alert(`Não foi possivel criar`);
+      console.error("Erro ao adicionar produto:", error);
+      alert("Erro ao adicionar produto. Por favor, tente novamente.");
     }
   }
 
@@ -151,13 +164,30 @@ export function New() {
     inputRef.current.click();
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+  };
+
+  const convertImageToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // Remove a parte do início da string 'data:image/png;base64,'
+        const base64String = reader.result.split(",")[1];
+        resolve(base64String);
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   return (
     <Container>
       <Content>
-        <h2>Adicionar</h2>
         <div className="DesktopForm">
           <div className="cardImage">
-            <h4>Imagem</h4>
+            <h4>Listagem de Produtos</h4>
             <Input
               icon={FiUpload}
               placeholder="Selecione a Imagem"
@@ -177,7 +207,7 @@ export function New() {
             <h4>Nome</h4>
             <Input
               id="Name"
-              placeholder="Ex: Novo Card"
+              placeholder="Ex: Novo Produto"
               onChange={(e) => setName(e.target.value)}
             />
           </div>
@@ -202,7 +232,7 @@ export function New() {
           <div className="cardDesc">
             <h4>Descrição</h4>
             <textarea
-              placeholder="Fale brevemente sobre o card"
+              placeholder="Dê uma descrição para o produto"
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
@@ -211,6 +241,10 @@ export function New() {
           <Button title="Salvar alterações" onClick={handleNew} />
         </div>
       </Content>
+      <FloatButton
+        icon={<FileSearchOutlined />}
+        onClick={() => navigate(`../${routes.buy}`)}
+      />
     </Container>
   );
 }

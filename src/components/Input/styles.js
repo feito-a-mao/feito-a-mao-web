@@ -5,8 +5,8 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
 
-  background-color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
-  color: ${({ theme }) => theme.COLORS.EXIT};
+  background-color: ${({ theme }) => theme.COLORS.EXIT};
+  color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
 
   margin-bottom: 8px;
   border-radius: 10px;
@@ -17,12 +17,12 @@ export const Container = styled.div`
 
     padding: 18px 16px;
 
-    color: ${({ theme }) => theme.COLORS.WHITE_TITLE};
+    color: ${({ theme }) => theme.COLORS.SECOND_BACKGROUND};
     background: transparent;
     border: 0;
 
     &::placeholder {
-      color: ${({ theme }) => theme.COLORS.EXIT};
+      color: #000;
     }
   }
   svg {
